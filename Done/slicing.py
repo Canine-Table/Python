@@ -8,6 +8,8 @@
 
 my_string = "Bro Code is a great youtuber"
 youtuber = my_string[:8]
+websitea_google = "https://www.google.com"
+websitea_splice = slice(12,-4)
 rest_of_string = my_string[9:]
 step = my_string[::2]
 reversed_string = my_string[::-1]
@@ -16,3 +18,4 @@ print(youtuber)
 print(rest_of_string)
 print(step)
 print(reversed_string)
+print(websitea_google[websitea_splice])
