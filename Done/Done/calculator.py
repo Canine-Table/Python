@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-input = input("enter an equation to calculate: ")
-user_input = input.split(" ")
+user_input = input("enter an equation to calculate: ").split(" ")
 total = current_value = 0 # initialize total and current total to zero
 try:
     while user_input != []:
