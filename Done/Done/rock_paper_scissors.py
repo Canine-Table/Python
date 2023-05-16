@@ -38,11 +38,29 @@ def winner(c,p):
         else:
             return cw
 
+def play_again(value):
+    if value.isalpha() == True:
+        value = value.upper()
+    match value:
+        case '0'|'N'|'NO':
+            return 'no'
+        case '1'|'Y'|'YES':
+            pass
+        case _:
+            print('\ninvalid choice\n')
+            return 'invalid'
+
 computer = player = None
+again = 'yes'
 choices = ['Rock','Paper','Scissors']
-computer = random.choice(choices)
-while player not in choices:
-    player = valid_choice(input('please choose between rock, paper or scissors: '))
-print('\nComputers Choice:',computer)
-print('Players Choice:',player)
-print(winner(computer,player))
+while again != 'no':
+    computer = random.choice(choices)
+    while player not in choices and again != 'invalid':
+        player = valid_choice(input('please choose between rock, paper or scissors: '))
+        if player in choices:
+            print('\nComputers Choice:',computer)
+            print('Players Choice:',player)
+            print(winner(computer,player))
+    player = None
+    again = play_again(input('would you like to play again? (y)es (n)o: '))
+print('\nbye\n')
