@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 # Program name: calulator.py
 # Program purpose: calculator
-# Author: Benjamin Stroobach-Wilson, 041048348, 23S_CST8245_010
 # Date & version: Monday, May 15, 2023 3:08:17 PM version: 1.0
-# Completion time: 45 minutes
+# Completion time: 23 minutes
 
 import math
 user_input = input("enter an equation to calculate: ").split(" ")
