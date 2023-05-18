@@ -24,3 +24,22 @@ sunny_weather = {key: value for (key,value) in weather.items() if value == 'sunn
 print(sunny_weather)
 
 # -------------------------------------------------------------------------------
+
+def check_temp(value):
+    if value < 0:
+        return 'Very Cold'
+    elif value >= 0 and value < 20:
+        return 'Cold'
+    elif value >= 20 and value < 40:
+        return 'chilly'
+    elif value >= 40 and value < 60:
+        return 'Warm'
+    elif value >= 60 and value < 80:
+        return 'Hot'
+    elif value >= 80 and value < 100:
+        return 'Very Hot'
+    else:
+        return 'Heat Wave'
+
+get_weather = {key: check_temp(value) for (key,value) in cities_in_F.items()}
+print(get_weather)
