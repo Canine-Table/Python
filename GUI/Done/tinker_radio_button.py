@@ -29,13 +29,18 @@ my_window.config(background='black')
 my_image = PhotoImage(file='image.png')
 my_window.iconphoto(True,my_image)
 
+
 selected = IntVar()
 radio_buttons = ['One','Two','Three','Four']
-num = 0
-for i in radio_buttons:
+
+radio_button_icons = []
+for i in ['icon_one.png','icon_two.png','icon_three.png','icon_four.png']:
+    radio_button_icons.append(PhotoImage(file=i))
+
+for i in range(0,radio_buttons.__len__()):
     my_radio_button = Radiobutton(my_window,
-        value=num,
-        text=i,
+        value=i,
+        text=radio_buttons[i],
         variable=selected,
         padx=20,
         font=('impact',24),
@@ -43,8 +48,9 @@ for i in radio_buttons:
         indicatoron=0,
         width=360,
         command=get_selected,
+        image=radio_button_icons[i],
+        compound='left',
     )
-    num += 1
     my_radio_button.pack(anchor=W)
 
 my_window.mainloop() # will place window on computer screen and will listen to events

@@ -10,18 +10,18 @@ from tkinter import *
 
 
 def display_checked():
-    if checked.get() == 1:
-        print('agree :)')
-    elif checked.get() == 0:
-        print('deny :(')
+    match checked.get():
+        case 1:
+            print('agree :)')
+        case 0:
+            print('deny :(')
 
 my_window = Tk() # instantiate an instance of a window
 
-my_window.geometry('820x820')
+my_window.geometry('420x100')
 my_window.title("window title")
 my_window.config(background='black')
-my_image = PhotoImage(file='image.png')
-my_window.iconphoto(True,my_image)
+my_window.iconphoto(True,PhotoImage(file='image.png'))
 checked = IntVar()
 
 check_button = Checkbutton(my_window,
@@ -30,12 +30,14 @@ check_button = Checkbutton(my_window,
     offvalue=0,
     onvalue=1,
     command=display_checked,
-    activebackground='black',
+    activebackground='green',
     activeforeground='white',
     fg='white',
-    bg='black',
-    image=my_image,
-    compound=BOTTOM
+    padx=10,
+    pady=5,
+    bg='green',
+    image=(my_photo := PhotoImage(file='icon_one.png')),
+    compound=LEFT
 )
 check_button.pack()
 
