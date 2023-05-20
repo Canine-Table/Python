@@ -3,4 +3,4 @@
 
 my_values = [i for i in range(0,10)]+['A','B','C','D','E','F']
 for i in my_values:
-        print(i)
+        print(i[5:-1])
