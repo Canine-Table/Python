@@ -4,6 +4,7 @@ if __name__ != "__main__":
 
     from .animals import *
     from .people import *
+    from .operating_system import *
 
     hr = "\n\n____________________________________________________________________________________________________________________\n\n"
     br = "\n\n"
