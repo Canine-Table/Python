@@ -1,11 +1,13 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+
 app = Flask(__name__)
+app.secret_key = "Secret Key"
 app.config.from_object(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///market.db"
-db.init_app(app)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
 
 
 class Item(db.Model):
@@ -14,6 +16,15 @@ class Item(db.Model):
     price = db.Column(db.Integer(), nullable=False, unique=True)
     barcode = db.Column(db.String(length=12), nullable=False, unique=True)
     description = db.Column(db.String(2048), nullable=False, unique=True)
+
+    def __init__(self, name, price, barcode, description):
+        self.name = name
+        self.price = price
+        self.barcode = barcode
+        self.description = description
+
+    def __repr__(self):
+        return '<Item %r>' % self.name
 
 
 @app.route("/")
@@ -35,6 +46,14 @@ def market_index_page():
         {"id": 3, "name": "KeyBoard", "barcode": 463938829392, "price": 55.00},
     ]
     return render_template("market_index.html", items=items)
+
+
+@app.route("/database")
+@app.route("/db")
+def database_index_page():
+    items = Item.query.all()
+    return render_template("database_index.html", items=items)
+
 
 
 if __name__ == '__main__':
