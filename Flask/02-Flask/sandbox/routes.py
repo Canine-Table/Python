@@ -26,3 +26,8 @@ def market_index_page():
 def database_index_page():
     items = Item.query.all()
     return render_template("database_index.html", items=items)
+
+#
+#
+#tables = {"items": Item.query.all(), "users": User.query.all(), "orders": Order.query.all()}
+# return render_template("database_index.html", tables=tables)
