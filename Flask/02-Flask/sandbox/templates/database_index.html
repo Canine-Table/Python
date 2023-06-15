@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Database{% endblock %}
+
+{% block content %}
+<br><div class="container jumbotron p-2">
+    <h1>SQL Alchemy</h1>
+    <h2>Python Flask CRUD Web Application Developement</h2>
+    <h5>CRUD stands for Create, Read, Update and Delete</h5>
+</div>
+
+<br><div class="container jumbotron p-2">
+    <table class="table table-hover table-bordered table-dark">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Barcode</th>
+                <th scope="col">Price</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-info">More Info</button>
+                        <button class="btn btn-outline btn-success">Purchase</button>
+                    </td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
