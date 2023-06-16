@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash
 from sandbox import app, db
 from sandbox.models import Item, User
-from sandbox.forms import RegisterForm
+from sandbox.forms import RegisterForm, LoginForm
 
 @app.route("/")
 @app.route("/home")
@@ -39,7 +39,7 @@ def user_index_page():
 def register_index_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(username=form.username.data,email_address=form.email_address.data,password_hash=form.password_two.data)
+        user_to_create = User(username=form.username.data,email_address=form.email_address.data,password=form.password_two.data)
         db.session.add(user_to_create)
         db.session.commit()
         return redirect( url_for('database_index_page'))
@@ -47,3 +47,10 @@ def register_index_page():
         for err_msg in form.errors.values():
             flash(f'Caught error: {err_msg}', category='danger')
     return render_template("register_index.html", form=form)
+
+
+@app.route("/login", methods=["GET","POST"])
+def login_index_page():
+    form = LoginForm()
+
+    return render_template("login_index_page.html", form=form)

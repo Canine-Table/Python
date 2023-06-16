@@ -22,7 +22,12 @@
 
         {{ form.password_two.label() }}
         {{ form.password_two(class="form-control", placeholder="Password") }}
-        <hr>
+        <hr><hr>
+        <div class="checkbox mb-3">
+            <h6>Already have an account? <a class="btn btn-sm btn-secondary"
+                    href="{{ url_for('login_index_page') }}">Login</a></h6>
+        </div>
+
         {{ form.submit(class="btn btn-lg btn-block btn-primary")}}
 
     </form>

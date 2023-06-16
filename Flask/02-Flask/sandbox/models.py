@@ -1,4 +1,4 @@
-from sandbox import db
+from sandbox import db, bcrypt
 
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -22,3 +22,11 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+    @property
+    def password(self):
+        return self.password
+    
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
