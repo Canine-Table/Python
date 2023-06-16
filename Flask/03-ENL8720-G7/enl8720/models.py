@@ -5,6 +5,7 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(length=30), nullable=False, unique=True)
@@ -12,6 +13,11 @@ class Item(db.Model):
     barcode = db.Column(db.String(length=12), nullable=False, unique=True)
     description = db.Column(db.String(2048), nullable=False, unique=True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+
+    def buy_item(self,user):
+        self.owner = user.id
+        user.budget -= self.price
+        db.session.commit()
 
     def __repr__(self):
         return '<Item %r>' % self.name
@@ -37,7 +43,7 @@ class User(db.Model, UserMixin):
         my_list = list(str(self.budget))
         my_new_list = ""
         for i,e in enumerate(reversed(my_list),1):
-            if i % 3 == 0:
+            if i % 3 == 0 and len(my_list) != 3:
                 my_new_list = f"{my_new_list}{e},"
             else:
                 my_new_list = f"{my_new_list}{e}"
@@ -49,6 +55,9 @@ class User(db.Model, UserMixin):
 
     def check_password_correction(self,attempted_password):
         return bcrypt.check_password_hash(self.password_hash,attempted_password)
+
+    def can_purchase(self,item_obj):
+        return self.budget >= item_obj.price
 
     def __repr__(self):
         return '<User %r>' % self.username

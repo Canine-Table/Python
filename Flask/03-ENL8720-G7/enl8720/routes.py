@@ -1,6 +1,6 @@
+from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
 from enl8720.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
-from flask import render_template, redirect, url_for, flash, get_flashed_messages
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from enl8720.models import Item, User
 from enl8720 import app, db
 
@@ -21,13 +21,21 @@ def about_index_page():
 def market_index_page():
     purchase_form = PurchaseItemForm()
     sell_form = SellItemForm()
-    items = Item.query.all()
-    if purchase_form.validate_on_submit():
-        print(purchase_form["purchased_item"])
+    if request.method == "POST":
+        purchased_item = request.form.get('purchased_item')
+        p_item_obj = Item.query.filter_by(name=purchased_item).first()
+        if p_item_obj:
+            if current_user.can_purchase(p_item_obj):
+                p_item_obj.buy_item(current_user)
+                flash(f"congratulations on your purchase, we hope you enjoy your new {p_item_obj.name}", category='success')
+            else:
+                flash(f"insufficient funds, you cannot purchase this {p_item_obj.name}", category='danger')
+        return redirect( url_for('market_index_page') )
 
-    if sell_form.validate_on_submit():
-        pass
-    return render_template("market_index.html", items=items,messages=get_flashed_messages(), purchase_form=purchase_form, sell_form=sell_form)
+    if request.method == "GET":
+        items = Item.query.filter_by(owner=None)
+        owned_items = Item.query.filter_by(owner=current_user.id)
+        return render_template("market_index.html", items=items,messages=get_flashed_messages(), purchase_form=purchase_form, sell_form=sell_form, owned_items=owned_items)
 
 
 @app.route("/users")
