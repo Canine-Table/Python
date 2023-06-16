@@ -1,7 +1,7 @@
-from flask import render_template
-from sandbox import app
-from sandbox.models import Item
-
+from flask import render_template, redirect, url_for, flash
+from sandbox import app, db
+from sandbox.models import Item, User
+from sandbox.forms import RegisterForm
 
 @app.route("/")
 @app.route("/home")
@@ -27,7 +27,23 @@ def database_index_page():
     items = Item.query.all()
     return render_template("database_index.html", items=items)
 
-#
-#
-#tables = {"items": Item.query.all(), "users": User.query.all(), "orders": Order.query.all()}
-# return render_template("database_index.html", tables=tables)
+@app.route("/db/usr")
+@app.route("/db/user")
+@app.route("/database/usr")
+@app.route("/database/user")
+def user_index_page():
+    users = User.query.all()
+    return render_template("users_index.html", users=users)
+
+@app.route("/register", methods=["GET","POST"])
+def register_index_page():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data,email_address=form.email_address.data,password_hash=form.password_two.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+        return redirect( url_for('database_index_page'))
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'Caught error: {err_msg}', category='danger')
+    return render_template("register_index.html", form=form)
