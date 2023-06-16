@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Database{% endblock %}
+
+{% block content %}
+<br>
+<div class="container jumbotron p-2">
+  <h1>SQL Alchemy</h1>
+  <h2>Python Flask CRUD Web Application Developement</h2>
+  <h5>CRUD stands for Create, Read, Update and Delete</h5>
+  {% include "error_messages.html" %}
+</div>
+
+<br>
+<div class="container jumbotron p-2">
+  <div class="row">
+    <div class="col-8">
+    <h2>Available Items on the Market</h2>
+    <p>Click on one of the items to start buying</p>
+      <table class="table table-hover table-bordered table-dark">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Barcode</th>
+            <th scope="col">Price</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          {% include "modal.html" %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.barcode }}</td>
+            <td>${{ item.price }}</td>
+            <td>
+              <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#InfoModal-{{ item.id }}">More Info</button>
+              <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#ConfirmModal-{{ item.id }}">Purchase</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+  <div class="col-4">
+    <h2>Owned Items</h2>
+    <p>Click on sell item to put the item back on the Market</p>
+  </div>
+</div>
+{% endblock %}

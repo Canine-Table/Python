@@ -1,4 +1,4 @@
-from sandbox import db, bcrypt, login_manager
+from enl8720 import db, bcrypt, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
