@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for, flash
-from sandbox import app, db
-from sandbox.models import Item, User
+from flask_login import login_user
 from sandbox.forms import RegisterForm, LoginForm
+from sandbox.models import Item, User
+from sandbox import app, db
 
 @app.route("/")
 @app.route("/home")
@@ -52,5 +53,32 @@ def register_index_page():
 @app.route("/login", methods=["GET","POST"])
 def login_index_page():
     form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.filter_by(username=form.username.data).first()
+        if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
+            login_user(attempted_user)
+            flash(f'Successfully logged in: {attempted_user.username}', category='success')
+            return redirect( url_for('database_index_page'))
+        else:
+            flash(f'Username or Password do not match, please try again', category='danger')
+    return render_template("login_index.html", form=form)
 
-    return render_template("login_index_page.html", form=form)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
