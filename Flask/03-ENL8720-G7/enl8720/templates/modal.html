@@ -1,4 +1,4 @@
-<div class="modal" id="InfoModal-{{ item.id }}" tabindex="-1" role="dialog">
+<div class="modal fade" id="InfoModal-{{ item.id }}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="modal" id="ConfirmModal-{{ item.id }}" tabindex="-1" role="dialog">
+<div class="modal fade" id="ConfirmModal-{{ item.id }}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,7 +29,8 @@
             <div class="modal-footer">
                 <form method="POST">
                     {{ purchase_form.hidden_tag() }}
-                    <input id="purchased_item" class="btn btn-primary" name="purchased_item" type="submit", value="{{ item.name }}" >
+                    <input id="purchased_item" name="purchased_item" type="hidden", value="{{ item.name }}" >
+                    {{ purchase_form.submit(class="btn btn-primary") }}
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

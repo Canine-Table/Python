@@ -1,4 +1,4 @@
-<div class="modal" id="#SellModal-{{ owned_item.id }}" tabindex="-1" role="dialog">
+<div class="modal fade" id="SellModal-{{ owned_item.id }}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,10 +13,10 @@
             <div class="modal-footer">
                 <form method="POST">
                     {{ sell_form.hidden_tag() }}
-                    <input id="sold_item" class="btn btn-primary" name="sold_item" type="submit"
-                        value="{{ owned_item.name }}">
+                    <input id="sold_item" name="sold_item" type="hidden" value="{{ owned_item.name }}">
+                    {{ sell_form.submit(class="btn btn-danger btn-block") }}
                 </form>
-                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

@@ -30,12 +30,22 @@ def market_index_page():
                 flash(f"congratulations on your purchase, we hope you enjoy your new {p_item_obj.name}", category='success')
             else:
                 flash(f"insufficient funds, you cannot purchase this {p_item_obj.name}", category='danger')
+
+        sold_item = request.form.get('sold_item')
+        s_item_obj = Item.query.filter_by(name=sold_item).first()
+        if s_item_obj:
+            if current_user.can_sell(s_item_obj):
+                s_item_obj.sell_item(current_user)
+                flash(f"congratulations , you sold your {s_item_obj.name} back to the flask marketplace", category='success')
+            else:
+                flash(f"you do not own this {s_item_obj.name}, therefore you can not sell it", category='danger')
+
         return redirect( url_for('market_index_page') )
 
     if request.method == "GET":
         items = Item.query.filter_by(owner=None)
         owned_items = Item.query.filter_by(owner=current_user.id)
-        return render_template("market_index.html", items=items,messages=get_flashed_messages(), purchase_form=purchase_form, sell_form=sell_form, owned_items=owned_items)
+        return render_template("market_index.html", items=items, messages=get_flashed_messages(), purchase_form=purchase_form, sell_form=sell_form, owned_items=owned_items)
 
 
 @app.route("/users")
@@ -80,4 +90,4 @@ def logout_index_page():
     flash("you logged out of your account", category='primary')
     logout_user()
     return redirect( url_for('home_index_page'))
-    
+
