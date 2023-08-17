@@ -5,29 +5,44 @@ from collections.abc import Sequence
 
 class GetSetParent(ABC):
 
-    __metaclass__: type[ABCMeta] = ABCMeta
 
-    def __init__(self,value: Any) -> None:
-        self.__val = value
-
-    @property
     @abstractmethod
-    def val(self) -> Any:
+    def __init__(self,value: Any) -> None:
+        self.val = value
+
+
+    @abstractmethod
+    def get_val(self) -> Any:
         return self.__val
 
-    @val.setter
-    def val(self,value: int) -> None:
-        self.__val = value
-
-    @property
     @abstractmethod
-    def doc(self) -> str:
+    def set_val(self,value: int) -> None:
+        if isinstance(list(),type(value)):
+            self.__val = value
+        else:
+            self.__val = []
+
+    @abstractmethod
+    def get_docs(self) -> str:
         return self.__doc__
 
-    @doc.setter
-    def doc(self,doc) -> None:
-        self.__doc__ = doc
+    @abstractmethod
+    def set_docs(self,value) -> None:
+        self.__doc__ = value
 
+
+    doc = property(fget=get_docs,fset=set_docs,doc="""
+        This is some documents for property __doc__
+        Keyword arguments:
+        argument -- description
+        Return: return_description
+    """)
+
+    val = property(fget=get_val,fset=set_val,doc="""
+    Keyword arguments:
+    argument -- description
+    Return: return_description
+    """)
 
 class GetSetInt(GetSetParent):
 
@@ -56,34 +71,32 @@ class GetSetInt(GetSetParent):
         if isinstance(str,value):
             self.__doc__ = value
         self.__doc__ = 'Must be a string'
-
-
 class GetSetList(GetSetParent):
 
     def __init__(self,value: Sequence) -> None:
-        if isinstance(list(),type(value)):
-            self.__val = value
-        else:
-            self.__val = []
+        super().__init__(value)
 
-    @property
-    def val(self) -> list:
-        return self.__val
+    def get_val(self) -> list:
+        return super().get_val()
 
-    @val.setter
-    def val(self,value: list) -> None:
-        if isinstance(list(),type(value)):
-            self.__val = value
-        else:
-            self.__val = []
+    def set_val(self,value: list) -> None:
+        super().set_val(value)
 
-    @property
-    def doc(self) -> str:
-        return self.__doc__
+    def get_docs(self) -> str:
+        return super().get_docs()
 
-    @doc.setter
-    def doc(self,value: str) -> None:
-        if isinstance(str(),type(value)):
-            self.__doc__ = value
-        else:
-            self.__doc__ = 'Must be a string'
+    def set_docs(self,value: str) -> None:
+        super().set_docs(value)
+
+    doc = property(fget=get_docs,fset=set_docs,doc="""
+        This is some documents for property __doc__
+        Keyword arguments:
+        argument -- description
+        Return: return_description
+    """)
+
+    val = property(fget=get_val,fset=set_val,doc="""
+    Keyword arguments:
+    argument -- description
+    Return: return_description
+    """)
